@@ -12,19 +12,21 @@ namespace ProjetoContaBancaria.cs.Entities
         public int ID { get; set; }
         public double Limit { get; set; }
         private List<string> extrato;
+        public DateTime Date { get; set; }
         public ContaCorrente(double saldo, int iD, double limit)
         {
             Saldo = saldo;
             ID = iD;
             Limit = limit;
             extrato = new List<string>();
-            extrato.Add($"Conta Corrente {ID} criada com saldo inicial de {Saldo} e limite de {Limit}.");
+            Date = DateTime.Now;
+            extrato.Add($"Conta Corrente {ID} criada com saldo inicial de {Saldo} e limite de {Limit} - Data/Hora da Criação da conta: {Date}");
         }
         public void Depositar(double valor)
         {
             Saldo += valor;
             Console.WriteLine("Depósito feito com sucesso!");
-            extrato.Add($"Depósito de {valor} realizado - Saldo atual: {Saldo}");
+            extrato.Add($"Depósito de {valor} realizado - Saldo atual: {Saldo} - Data/Hora da operação: {Date}");
         }
         public void Sacar(double valor)
         {
@@ -36,7 +38,7 @@ namespace ProjetoContaBancaria.cs.Entities
             {
                 Saldo -= valor;
                 Console.WriteLine("Saque feito com sucesso!");
-                extrato.Add($"Saque de {valor} realizado - Saldo atual: {Saldo}");
+                extrato.Add($"Saque de {valor} realizado - Saldo atual: {Saldo} - Data/Hora da operação: {Date}");
             }
         }
         public void Transferir(double valor, ContaCorrente contaDestino)
@@ -50,7 +52,7 @@ namespace ProjetoContaBancaria.cs.Entities
                 Saldo -= valor;
                 contaDestino.Depositar(valor);
                 Console.WriteLine("Transferência feita com sucesso!");
-                extrato.Add($"Transferência de {valor} para a conta {contaDestino.ID} realizada. Saldo atual: {Saldo}");
+                extrato.Add($"Transferência de {valor} para a conta {contaDestino.ID} realizada. Saldo atual: {Saldo} - Data/Hora da operação: {Date}");
             }
         }
         public void ExibirExtrato()
