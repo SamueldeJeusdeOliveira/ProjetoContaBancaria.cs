@@ -6,68 +6,20 @@ using System.Threading.Tasks;
 
 namespace ProjetoContaBancaria.cs.Entities
 {
-    public class ContaCorrente
+    public class ContaCorrente : Conta
     {
-        public double Saldo { get; set; }
-        public int ID { get; set; }
-        public double Limit { get; set; }
         private List<string> extrato;
-        public DateTime Date { get; set; }
-        public ContaCorrente(double saldo, int iD, double limit)
+        public ContaCorrente(int iD, double saldo, double limit, string senha, string name) : base(saldo, iD, limit, senha, name)
         {
             Saldo = saldo;
-            ID = iD;
-            Limit = limit;
+            Senha = senha;
             extrato = new List<string>();
-            Date = DateTime.Now;
-            extrato.Add($"Conta Corrente {ID} criada com saldo inicial de {Saldo} e limite de {Limit} - Data/Hora da Criação da conta: {Date}");
         }
         public void Depositar(double valor)
         {
-            Saldo += valor;
+            Saldo += valor - 5;
             Console.WriteLine("Depósito feito com sucesso!");
             extrato.Add($"Depósito de {valor} realizado - Saldo atual: {Saldo} - Data/Hora da operação: {Date}");
-        }
-        public void Sacar(double valor)
-        {
-            if (valor > Saldo + Limit)
-            {
-                Console.WriteLine("Valor maior que o saldo e o limite.");
-            }
-            else
-            {
-                Saldo -= valor;
-                Console.WriteLine("Saque feito com sucesso!");
-                extrato.Add($"Saque de {valor} realizado - Saldo atual: {Saldo} - Data/Hora da operação: {Date}");
-            }
-        }
-        public void Transferir(double valor, ContaCorrente contaDestino)
-        {
-            if (valor > Saldo + Limit)
-            {
-                Console.WriteLine("Valor maior que o saldo e o limite.");
-            }
-            else
-            {
-                Saldo -= valor;
-                contaDestino.Depositar(valor);
-                Console.WriteLine("Transferência feita com sucesso!");
-                extrato.Add($"Transferência de {valor} para a conta {contaDestino.ID} realizada. Saldo atual: {Saldo} - Data/Hora da operação: {Date}");
-            }
-        }
-        public void ExibirExtrato()
-        {
-            Console.WriteLine($"Extrato da Conta {ID}:");
-            foreach (string movimentacao in extrato)
-            {
-                Console.WriteLine(movimentacao);
-            }
-            Console.WriteLine();
-        }
-
-        public override string ToString()
-        {
-            return $"Conta Corrente {ID}:\nSaldo: {Saldo}\n";
         }
     }
 }
